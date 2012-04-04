@@ -44,4 +44,3 @@ function pf_delete($argv) {
             return false;
     }
 }
-?>

@@ -41,6 +41,7 @@ usage: pf <command>
 Commands:
 ---------
 clone   (<appname> | <app_id>) [directory]
+create  app [cloud_id] [domain_name]
 delete  (app (<appname> | <app_id>) | sshkey <ssh_key_id>)
 details (<appname> | <app_id>)
 list    (clouds | apps [cloud_id] | sshkeys)

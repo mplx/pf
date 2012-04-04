@@ -55,6 +55,21 @@ class PHPFog {
         return $app_id;
     }
 
+    function create_app($cloud_id, $jump_start_id, $login, $mysql_password, $domain_name) {
+        $client = $this;
+        if ($cloud_id != null) {
+            $request_url = "/clouds/{$cloud_id}/apps";
+        } else {
+            $request_url = "/apps";
+        }
+        $payload = array('jump_start_id' => $jump_start_id, 'login' => $login, 'password' => $mysql_password, 'domain_name' => $domain_name );
+        $response = $this->api_call(function() use ($client, $request_url, $payload) {
+            return $client->phpfog->post($request_url, $payload, array("Api-Auth-Token: ".$client->api_auth_token()));
+        });
+
+        return $response;
+    }
+
     function delete_app($app_id) {
         $client = $this;
         $response = $this->api_call(function() use ($client, $app_id) {
@@ -63,7 +78,7 @@ class PHPFog {
         return $response;
     }
 
-    # --- SSH Keys ---- #
+    # --- SSH Keys --- #
 
     function get_sshkeys() {
         $client = $this;
@@ -89,6 +104,17 @@ class PHPFog {
         });
         return $response;
     }
+
+    # --- Utility Methods --- #
+
+    function domain_available($domain_name) {
+        $client = $this;
+        $request_url = "/apps/subdomain_available?domain_name={$domain_name}";
+        $response = $this->api_call(function() use ($client, $request_url) {
+            return $client->phpfog->get($request_url, array("Api-Auth-Token: ".$client->api_auth_token()));
+        });
+        return $response;
+    }    
 
     # ---
 
@@ -165,7 +191,13 @@ class PHPFog {
                 exit(1);
             }
         } catch (PestJSON_BadRequest $e) {
-            failure_message("There was a problem making that request. Please try again.");
+            $raw = $this->last_response();
+            $response = json_decode($raw['body'], true);
+            if (@array_key_exists('message', $response)) {
+                failure_message($response['message']); 
+            } else {
+                failure_message("There was a problem making that request. Please try again.");
+            }
             exit(1);
         }
 

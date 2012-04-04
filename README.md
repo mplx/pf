@@ -124,6 +124,10 @@ Wrapper for git push.
 Deploys an app using git submodules.
 
 	pf update
+
+#### Create
+
+    pf create app [cloud_id] [domain_name]
 	
 #### Delete
 
