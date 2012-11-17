@@ -53,6 +53,19 @@ Missing Requirement: **Cannot find git executable.** You can install git by typi
 
     sudo apt-get install git-core
 
+### Cygwin (with Cygwin-Git, PHP 5.3.15 from Cygwinports)
+
+    curl -s https://raw.github.com/phpfog/pf/master/bin/installer > installer && php installer
+
+#### Troubleshoot Cygwin
+
+For installing PHP start cygwin setup with key option
+
+    cygstart -- /path/to/setup.exe -K http://cygwinports.org/ports.gpg
+	
+and add cygwin ports as additional repository
+
+    ftp://ftp.cygwinports.org/pub/cygwinports
 
 ### Windows (with XAMPP, Git for Windows, and Git Bash)
 
@@ -139,6 +152,3 @@ Shows the current username logged in.
 #### Logout
 
 	pf logout [username]
-
-
-

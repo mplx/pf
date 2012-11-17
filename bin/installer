@@ -107,6 +107,8 @@ function get_package_dir() {
         case OSX:
         case LINUX:
             return "/usr/local/phpfog";
+        case CYGWIN:
+            return "/usr/local/phpfog";
         case WINDOWS:
             return fix_path($_SERVER['USERPROFILE']."\\PHPFog");
     }
@@ -125,7 +127,7 @@ function clean($r = '', $e) {
 
 # Pre-installation dependency checks
 function check_deps() {
-    $supported = array(OSX, LINUX, WINDOWS);
+    $supported = array(OSX, LINUX, CYGWIN, WINDOWS);
     $errors = array();
 
     if (!in_array(PLATFORM, $supported)) {
@@ -294,6 +296,7 @@ function colorize($str, $color) {
 function platform() {
     define("OSX", 'osx');
     define("LINUX", 'linux');
+	define("CYGWIN", 'cygwin');
     define("WINDOWS", 'windows');
     define("OTHER", 'other');
 
@@ -302,6 +305,8 @@ function platform() {
             return OSX;
         case 'LINUX':
             return LINUX;
+		case 'CYGWIN':
+            return CYGWIN;
         default:
             return substr($os, 0, 3) === 'WIN' ? WINDOWS : OTHER;
     }
